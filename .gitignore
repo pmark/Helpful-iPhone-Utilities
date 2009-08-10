@@ -1,0 +1,10 @@
+build
+*.xcodeproj/*.mode1v3
+*.xcodeproj/*.mode2v3
+*.xcodeproj/*.pbxuser
+*.xcodeproj/*.perspectivev3
+*.swp
+*~.nib
+.DS_Store
+
+*/errorLogFromLastBuild.txt
