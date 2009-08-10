@@ -138,8 +138,7 @@
 				4D85823D102FA63A0078CF24 /* BTLFullScreenCameraController.h */,
 				4D85823E102FA63A0078CF24 /* BTLFullScreenCameraController.m */,
 			);
-			name = "BTL Utilities";
-			path = Utilities;
+			path = "BTL Utilities";
 			sourceTree = "<group>";
 		};
 		4D8583D2102FDCF20078CF24 /* Views */ = {
@@ -157,7 +156,7 @@
 				4D858433102FE20B0078CF24 /* MBProgressHUD.h */,
 				4D858434102FE20B0078CF24 /* MBProgressHUD.m */,
 			);
-			name = "Other Utilities";
+			path = "Other Utilities";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
