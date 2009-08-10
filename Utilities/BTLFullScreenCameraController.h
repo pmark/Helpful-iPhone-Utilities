@@ -1,5 +1,5 @@
 //
-//  FullScreenCameraController.h
+//  BTLFullScreenCameraController.h
 //  ViewThing1
 //
 //  Created by P. Mark Anderson on 8/6/2009.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface FullScreenCameraController : UIImagePickerController {
+@interface BTLFullScreenCameraController : UIImagePickerController {
 }
 
 + (BOOL)isAvailable;

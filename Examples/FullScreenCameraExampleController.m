@@ -15,34 +15,38 @@
 
 
 - (void)loadView {  
+  self.overlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
+  self.overlayView.backgroundColor = [UIColor clearColor];
+  self.overlayView.opaque = NO;
+  self.overlayView.alpha = 0.5f;
+  
   UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
   label.text = @"This is the overlay.";
   label.textAlignment = UITextAlignmentCenter;
   label.adjustsFontSizeToFitWidth = YES;
   label.textColor = [UIColor redColor];
   label.shadowOffset = CGSizeMake(0, -1);  
-  label.shadowColor = [UIColor blackColor];
-  
-  self.overlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-  self.overlayView.backgroundColor = [UIColor clearColor];
-  self.overlayView.clipsToBounds = YES;
-  self.overlayView.opaque = NO;
-  self.overlayView.alpha = 0.5f;  
+  label.shadowColor = [UIColor blackColor];  
   [self.overlayView addSubview:label];
   [label release];
-
+  
+  UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] init];  
+  [spinner startAnimating];
+  [self.overlayView addSubview:spinner];
+  [spinner release];
+  
   self.view = self.overlayView;
 }
 
 - (void) viewDidAppear:(BOOL)animated { 
   [self initCamera];
-  [self.camera displayModalWithController:self animated:YES];
+  [self startCamera];
 }
 
 - (void) initCamera {  
-  if ([FullScreenCameraController isAvailable]) {  
+  if ([BTLFullScreenCameraController isAvailable]) {  
     NSLog(@"Initializing camera.");
-    FullScreenCameraController *tmpCamera = [[FullScreenCameraController alloc] init];
+    BTLFullScreenCameraController *tmpCamera = [[BTLFullScreenCameraController alloc] init];
     self.camera = tmpCamera;
     [tmpCamera release];
     [self.camera.view setBackgroundColor:[UIColor blueColor]];
@@ -50,6 +54,10 @@
   } else {
     NSLog(@"Camera not available.");
   }
+}
+
+- (void)startCamera {
+  [self.camera displayModalWithController:self animated:YES];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -65,7 +73,7 @@
 }
 
 -(void)toggleAugmentedReality {
-  if ([FullScreenCameraController isAvailable]) {  
+  if ([BTLFullScreenCameraController isAvailable]) {  
     self.cameraMode = !self.cameraMode;
     if (self.cameraMode == YES) {
       NSLog(@"Setting view to camera");
@@ -73,7 +81,7 @@
       
       // TODO: figure out why simply setting the view is not working
       //self.view = self.camera.view;
-      [self.camera displayModalWithController:self animated:YES];
+      [self startCamera];
       
     } else {
       NSLog(@"Setting view to overlay");

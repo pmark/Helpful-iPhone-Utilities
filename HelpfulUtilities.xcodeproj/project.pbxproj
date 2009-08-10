@@ -15,8 +15,9 @@
 		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
 		28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28C286E00D94DF7D0034E888 /* RootViewController.m */; };
 		28F335F11007B36200424DE2 /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28F335F01007B36200424DE2 /* RootViewController.xib */; };
-		4D85823F102FA63A0078CF24 /* FullScreenCameraController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D85823E102FA63A0078CF24 /* FullScreenCameraController.m */; };
+		4D85823F102FA63A0078CF24 /* BTLFullScreenCameraController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D85823E102FA63A0078CF24 /* BTLFullScreenCameraController.m */; };
 		4D858258102FA7680078CF24 /* FullScreenCameraExampleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D858257102FA7680078CF24 /* FullScreenCameraExampleController.m */; };
+		4D858435102FE20B0078CF24 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D858434102FE20B0078CF24 /* MBProgressHUD.m */; };
 		4DD6280B102FA03E00B8AE1B /* Example.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD6280A102FA03E00B8AE1B /* Example.m */; };
 /* End PBXBuildFile section */
 
@@ -33,10 +34,12 @@
 		28C286E00D94DF7D0034E888 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		28F335F01007B36200424DE2 /* RootViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootViewController.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		4D85823D102FA63A0078CF24 /* FullScreenCameraController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullScreenCameraController.h; sourceTree = "<group>"; };
-		4D85823E102FA63A0078CF24 /* FullScreenCameraController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullScreenCameraController.m; sourceTree = "<group>"; };
-		4D858256102FA7680078CF24 /* FullScreenCameraExampleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullScreenCameraExampleController.h; sourceTree = "<group>"; };
-		4D858257102FA7680078CF24 /* FullScreenCameraExampleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullScreenCameraExampleController.m; sourceTree = "<group>"; };
+		4D85823D102FA63A0078CF24 /* BTLFullScreenCameraController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTLFullScreenCameraController.h; sourceTree = "<group>"; };
+		4D85823E102FA63A0078CF24 /* BTLFullScreenCameraController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTLFullScreenCameraController.m; sourceTree = "<group>"; };
+		4D858256102FA7680078CF24 /* FullScreenCameraExampleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FullScreenCameraExampleController.h; path = Examples/FullScreenCameraExampleController.h; sourceTree = "<group>"; };
+		4D858257102FA7680078CF24 /* FullScreenCameraExampleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FullScreenCameraExampleController.m; path = Examples/FullScreenCameraExampleController.m; sourceTree = "<group>"; };
+		4D858433102FE20B0078CF24 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		4D858434102FE20B0078CF24 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		4DD62809102FA03E00B8AE1B /* Example.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Example.h; sourceTree = "<group>"; };
 		4DD6280A102FA03E00B8AE1B /* Example.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Example.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* HelpfulUtilities-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "HelpfulUtilities-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
@@ -80,10 +83,12 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				4D858242102FA6F10078CF24 /* Utilities */,
 				4D85823B102FA6290078CF24 /* Examples */,
+				4D858242102FA6F10078CF24 /* BTL Utilities */,
+				4D85841F102FE0E60078CF24 /* Other Utilities */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				4D8583D2102FDCF20078CF24 /* Views */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -103,8 +108,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				28F335F01007B36200424DE2 /* RootViewController.xib */,
-				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* HelpfulUtilities-Info.plist */,
 			);
 			name = Resources;
@@ -129,13 +132,32 @@
 			name = Examples;
 			sourceTree = "<group>";
 		};
-		4D858242102FA6F10078CF24 /* Utilities */ = {
+		4D858242102FA6F10078CF24 /* BTL Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				4D85823D102FA63A0078CF24 /* FullScreenCameraController.h */,
-				4D85823E102FA63A0078CF24 /* FullScreenCameraController.m */,
+				4D85823D102FA63A0078CF24 /* BTLFullScreenCameraController.h */,
+				4D85823E102FA63A0078CF24 /* BTLFullScreenCameraController.m */,
 			);
+			name = "BTL Utilities";
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		4D8583D2102FDCF20078CF24 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				28F335F01007B36200424DE2 /* RootViewController.xib */,
+				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		4D85841F102FE0E60078CF24 /* Other Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				4D858433102FE20B0078CF24 /* MBProgressHUD.h */,
+				4D858434102FE20B0078CF24 /* MBProgressHUD.m */,
+			);
+			name = "Other Utilities";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -203,8 +225,9 @@
 				1D3623260D0F684500981E51 /* HelpfulUtilitiesAppDelegate.m in Sources */,
 				28C286E10D94DF7D0034E888 /* RootViewController.m in Sources */,
 				4DD6280B102FA03E00B8AE1B /* Example.m in Sources */,
-				4D85823F102FA63A0078CF24 /* FullScreenCameraController.m in Sources */,
+				4D85823F102FA63A0078CF24 /* BTLFullScreenCameraController.m in Sources */,
 				4D858258102FA7680078CF24 /* FullScreenCameraExampleController.m in Sources */,
+				4D858435102FE20B0078CF24 /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
