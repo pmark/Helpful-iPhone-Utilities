@@ -23,11 +23,6 @@
   return self;
 }
 
-/*
-- (void)viewDidLoad {
-}
-*/
-
 + (BOOL)isAvailable {
   return [self isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
 }
@@ -38,16 +33,6 @@
 
 - (void)dismissModalViewControllerAnimated:(BOOL)animated {
   [[self parentViewController] dismissModalViewControllerAnimated:animated];
-}
-
-// Also see UIImagePickerController's presentModalViewController:animated
-- (void)displayWithController:(UIViewController*)controller {
-  [controller.view addSubview:self.view];
-}
-
-// Also see UIImagePickerController's dismissModalViewControllerAnimated
-- (void)dismiss {
-  [self.view removeFromSuperview];
 }
 
 @end

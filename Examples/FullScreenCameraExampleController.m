@@ -57,6 +57,13 @@
 }
 
 - (void)startCamera {
+	// TODO: figure out why simply setting the view is not working
+	// since the modal view is not as desirable
+	
+	// This isn't working but should:
+	//self.view = self.camera.view;
+	
+	// Modal view always works, but it's harder to work with.
   [self.camera displayModalWithController:self animated:YES];
 }
 
@@ -79,8 +86,6 @@
       NSLog(@"Setting view to camera");
       if (!self.camera) { [self initCamera]; }
       
-      // TODO: figure out why simply setting the view is not working
-      //self.view = self.camera.view;
       [self startCamera];
       
     } else {

@@ -13,8 +13,6 @@
 }
 
 + (BOOL)isAvailable;
-- (void)displayWithController:(UIViewController*)controller;
-- (void)dismiss;
 - (void)displayModalWithController:(UIViewController*)controller animated:(BOOL)animated;
 - (void)dismissModalViewControllerAnimated:(BOOL)animated;
 
