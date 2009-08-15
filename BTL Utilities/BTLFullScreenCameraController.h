@@ -1,6 +1,5 @@
 //
 //  BTLFullScreenCameraController.h
-//  ViewThing1
 //
 //  Created by P. Mark Anderson on 8/6/2009.
 //  Copyright 2009 Bordertown Labs, LLC. All rights reserved.

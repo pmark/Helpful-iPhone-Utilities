@@ -1,6 +1,5 @@
 //
 //  BTLFullScreenCameraController.m
-//  ViewThing1
 //
 //  Created by P. Mark Anderson on 8/6/2009.
 //  Copyright 2009 Bordertown Labs, LLC. All rights reserved.
@@ -18,7 +17,7 @@
     self.navigationBarHidden = YES;
     self.toolbarHidden = YES;
     self.wantsFullScreenLayout = YES;
-    self.cameraViewTransform = CGAffineTransformScale(self.cameraViewTransform, 1.0, 1.13f);    
+    self.cameraViewTransform = CGAffineTransformScale(self.cameraViewTransform, 1.13f, 1.13f);    
   }
   return self;
 }
