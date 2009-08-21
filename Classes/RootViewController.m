@@ -115,7 +115,6 @@ NSString *testExampleData[][2]  = {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	Example *example = [examplesArray objectAtIndex:indexPath.row];
-  NSLog(@"Pushing %@", example.controllerClass);
   UIViewController *exampleController = [[NSClassFromString(example.controllerClass) alloc] init];
   
 	[self.navigationController pushViewController:exampleController animated:YES];

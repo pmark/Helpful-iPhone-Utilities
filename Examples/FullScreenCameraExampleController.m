@@ -30,11 +30,6 @@
   [self.overlayView addSubview:label];
   [label release];
   
-  UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] init];  
-  [spinner startAnimating];
-  [self.overlayView addSubview:spinner];
-  [spinner release];
-  
   self.view = self.overlayView;
 }
 
