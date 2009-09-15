@@ -7,7 +7,6 @@
 
 #import "BTLFullScreenCameraController.h"
 
-
 @implementation BTLFullScreenCameraController
 
 - (id)init {
@@ -33,5 +32,15 @@
 - (void)dismissModalViewControllerAnimated:(BOOL)animated {
   [[self parentViewController] dismissModalViewControllerAnimated:animated];
 }
+
+- (void)takePicture {
+	self.delegate = self;
+	[super takePicture];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+	NSLog(@"took picture: %@", info);
+}
+
 
 @end

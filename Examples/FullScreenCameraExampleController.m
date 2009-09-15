@@ -8,10 +8,18 @@
 
 #import "FullScreenCameraExampleController.h"
 
+// horizontal onSwipe
+#define HORIZ_SWIPE_DRAG_MIN 180
+#define VERT_SWIPE_DRAG_MAX 100
+
+// vertical onSwipe
+#define HORIZ_SWIPE_DRAG_MAX 100
+#define VERT_SWIPE_DRAG_MIN 250
+
 
 @implementation FullScreenCameraExampleController
 
-@synthesize camera, cameraMode, overlayView;
+@synthesize camera, cameraMode, overlayView, startTouchPosition;
 
 
 - (void)loadView {  
@@ -108,6 +116,82 @@
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
 }
+
+#pragma mark 
+#pragma mark Touches
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	UITouch *touch = [touches anyObject];
+	CGPoint point = [touch locationInView:self.view];
+	self.startTouchPosition = point;
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	UITouch *touch = [touches anyObject];
+  
+  if ([touch tapCount] == 1) {
+		[self onSingleTap:touch];
+	} else if ([touch tapCount] == 2) {
+		[self onDoubleTap:touch];
+  }
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+	UITouch *touch = [touches anyObject];
+	CGPoint currentTouchPosition = [touch locationInView:self.view];
+  
+	// If the onSwipe tracks correctly.
+	if (fabsf(startTouchPosition.x - currentTouchPosition.x) >= HORIZ_SWIPE_DRAG_MIN &&
+			fabsf(startTouchPosition.y - currentTouchPosition.y) <= VERT_SWIPE_DRAG_MAX)
+	{
+		[NSObject cancelPreviousPerformRequestsWithTarget:self];
+		if (startTouchPosition.x < currentTouchPosition.x) {
+			[self onSwipeRight];
+		} else {
+			[self onSwipeLeft];
+		}
+		self.startTouchPosition = currentTouchPosition;
+    
+	} else if (fabsf(startTouchPosition.y - currentTouchPosition.y) >= VERT_SWIPE_DRAG_MIN &&
+             fabsf(startTouchPosition.x - currentTouchPosition.x) <= HORIZ_SWIPE_DRAG_MAX)
+  {
+		[NSObject cancelPreviousPerformRequestsWithTarget:self];
+		if (startTouchPosition.y < currentTouchPosition.y) {
+			[self onSwipeDown];
+		} else {
+			[self onSwipeUp];
+		}
+		self.startTouchPosition = currentTouchPosition;  
+
+  } else {
+		// Process a non-swipe event.
+	}
+}
+
+-(void)onSingleTap:(UITouch*)touch {
+	NSLog(@"onSingleTap");
+	[camera takePicture];
+}
+
+-(void)onDoubleTap:(UITouch*)touch {
+	NSLog(@"onDoubleTap");
+}
+
+- (void)onSwipeUp {
+	NSLog(@"onSwipeUp");
+}
+
+- (void)onSwipeDown {
+	NSLog(@"onSwipeDown");
+}
+
+- (void)onSwipeLeft {
+	NSLog(@"onSwipeLeft");
+}
+
+- (void)onSwipeRight {
+	NSLog(@"onSwipeRight");
+}
+
 
 - (void)dealloc {
   [overlayView release];
