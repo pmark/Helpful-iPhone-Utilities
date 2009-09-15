@@ -14,7 +14,7 @@
 + (BOOL)isAvailable;
 - (void)displayModalWithController:(UIViewController*)controller animated:(BOOL)animated;
 - (void)dismissModalViewControllerAnimated:(BOOL)animated;
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info;
 - (void)takePicture;
+- (void)writeImageToDocuments:(UIImage*)image;
 
 @end

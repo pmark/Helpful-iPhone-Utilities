@@ -6,6 +6,7 @@
 //
 
 #import "BTLFullScreenCameraController.h"
+#include <QuartzCore/QuartzCore.h>
 
 @implementation BTLFullScreenCameraController
 
@@ -38,8 +39,55 @@
 	[super takePicture];
 }
 
+- (UIImage*)dumpOverlayViewToImage {
+	UIGraphicsBeginImageContext(self.cameraOverlayView.bounds.size);
+	[self.cameraOverlayView.layer renderInContext:UIGraphicsGetCurrentContext()];
+	UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	
+	return viewImage;
+}
+
+- (UIImage*)addOverlayToBaseImage:(UIImage*)baseImage {
+	UIImage *overlayImage = [self dumpOverlayViewToImage];	
+	CGPoint topCorner = CGPointMake(0, 0);
+	CGSize targetSize = CGSizeMake(320, 480);	
+	CGRect scaledRect = CGRectZero;
+	scaledRect.origin = CGPointMake(0.0,0.0);
+	scaledRect.size.width  = 320;
+	scaledRect.size.height = 480;
+	
+	UIGraphicsBeginImageContext(targetSize);	
+	[baseImage drawInRect:scaledRect];
+	[overlayImage drawAtPoint:topCorner];	
+	UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();	
+	
+	return result;	
+}
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-	NSLog(@"took picture: %@", info);
+	UIImage *baseImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+	if (baseImage) {
+		UIImage *compositeImage = [self addOverlayToBaseImage:baseImage];
+		UIImageWriteToSavedPhotosAlbum(compositeImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+	}
+}
+
+- (void)image:(UIImage*)image didFinishSavingWithError:(NSError *)error contextInfo:(NSDictionary*)info {
+	NSLog(@"Done saving image to photo album");
+	[self writeImageToDocuments:image];
+}
+
+- (void)writeImageToDocuments:(UIImage*)image {
+	NSData *png = UIImagePNGRepresentation(image);
+	
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+	
+	NSError *error = nil;
+	[png writeToFile:[documentsDirectory stringByAppendingPathComponent:@"image.png"] options:NSAtomicWrite error:&error];
+	NSLog(@"Done saving image.png to documents directory");
 }
 
 
