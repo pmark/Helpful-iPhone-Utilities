@@ -19,7 +19,7 @@
 
 @implementation FullScreenCameraExampleController
 
-@synthesize camera, cameraMode, overlayView, startTouchPosition;
+@synthesize camera, cameraMode, overlayView, overlayLabel, startTouchPosition;
 
 
 - (void)loadView {  
@@ -28,15 +28,14 @@
   self.overlayView.opaque = NO;
   self.overlayView.alpha = 0.5f;
   
-  UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-  label.text = @"This is the overlay.";
-  label.textAlignment = UITextAlignmentCenter;
-  label.adjustsFontSizeToFitWidth = YES;
-  label.textColor = [UIColor redColor];
-  label.shadowOffset = CGSizeMake(0, -1);  
-  label.shadowColor = [UIColor blackColor];  
-  [self.overlayView addSubview:label];
-  [label release];
+  self.overlayLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
+  self.overlayLabel.text = @"Starting camera...";
+  self.overlayLabel.textAlignment = UITextAlignmentCenter;
+  self.overlayLabel.adjustsFontSizeToFitWidth = YES;
+  self.overlayLabel.textColor = [UIColor redColor];
+  self.overlayLabel.shadowOffset = CGSizeMake(0, -1);  
+  self.overlayLabel.shadowColor = [UIColor blackColor];  
+  [self.overlayView addSubview:self.overlayLabel];
   
   self.view = self.overlayView;
 }
@@ -44,6 +43,7 @@
 - (void) viewDidAppear:(BOOL)animated { 
   [self initCamera];
   [self startCamera];
+	self.overlayLabel.text = @"Tap to take a picture.";
 }
 
 - (void) initCamera {  
@@ -195,6 +195,7 @@
 
 - (void)dealloc {
   [overlayView release];
+  [overlayLabel release];
   [camera release];
   [super dealloc];
 }

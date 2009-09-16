@@ -16,10 +16,12 @@
   UIView *overlayView;
   BOOL cameraMode;
 	CGPoint startTouchPosition;
+	UILabel *overlayLabel;
 }
 
 @property (nonatomic, retain) BTLFullScreenCameraController *camera;
 @property (nonatomic, retain) UIView *overlayView;
+@property (nonatomic, retain) UILabel *overlayLabel;
 @property (assign) BOOL cameraMode;
 @property (nonatomic) CGPoint startTouchPosition;
 
