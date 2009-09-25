@@ -8,9 +8,11 @@
 #import "BTLFullScreenCameraController.h"
 #include <QuartzCore/QuartzCore.h>
 
+#define CAMERA_SCALAR 1.12412 // scalar = (480 / (2048 / 480))
+
 @implementation BTLFullScreenCameraController
 
-@synthesize statusLabel;
+@synthesize statusLabel, shareController, shadeOverlay;
 
 - (id)init {
   if (self = [super init]) {
@@ -19,20 +21,25 @@
     self.navigationBarHidden = YES;
     self.toolbarHidden = YES;
     self.wantsFullScreenLayout = YES;
-    self.cameraViewTransform = CGAffineTransformScale(self.cameraViewTransform, 1.13f, 1.13f);    
+		self.cameraViewTransform = CGAffineTransformScale(self.cameraViewTransform, CAMERA_SCALAR, CAMERA_SCALAR);    		
 		
-		self.statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.bounds.size.height)];
-		self.statusLabel.textAlignment = UITextAlignmentCenter;
-		self.statusLabel.adjustsFontSizeToFitWidth = YES;
-		self.statusLabel.backgroundColor = [UIColor clearColor];
-		self.statusLabel.textColor = [UIColor whiteColor];
-		self.statusLabel.shadowOffset = CGSizeMake(0, -1);  
-		self.statusLabel.shadowColor = [UIColor blackColor];  
-		self.statusLabel.hidden = YES;
-		[self.view addSubview:self.statusLabel];		
+		if ([self.parentViewController respondsToSelector:@selector(initStatusMessage)]) {
+			[self.parentViewController initStatusMessage];
+		} else {
+			[self initStatusMessage];
+		}		
   }
   return self;
 }
+
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];	
+	self.shadeOverlay = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"overlay1.png"]] autorelease];
+	self.shadeOverlay.alpha = 0.0f;
+	[self.view addSubview:self.shadeOverlay];
+}
+
 
 + (BOOL)isAvailable {
   return [self isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera];
@@ -49,15 +56,22 @@
 - (void)takePicture {
 	self.delegate = self;
 	[self showStatusMessage:@"Taking photo..."];
+	
+	if (self.shareController) {
+		[self.shareController hideThumbnail];
+	}
+	
+	[self showShadeOverlay];
 	[super takePicture];
 }
 
 - (UIImage*)dumpOverlayViewToImage {
-	UIGraphicsBeginImageContext(self.cameraOverlayView.bounds.size);
+	CGSize imageSize = self.cameraOverlayView.bounds.size;
+	UIGraphicsBeginImageContext(imageSize);
 	[self.cameraOverlayView.layer renderInContext:UIGraphicsGetCurrentContext()];
 	UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
-	
+
 	return viewImage;
 }
 
@@ -66,12 +80,16 @@
 	CGPoint topCorner = CGPointMake(0, 0);
 	CGSize targetSize = CGSizeMake(320, 480);	
 	CGRect scaledRect = CGRectZero;
-	scaledRect.origin = CGPointMake(0.0,0.0);
-	scaledRect.size.width  = 320;
+	
+	CGFloat scaledX = 480 * baseImage.size.width / baseImage.size.height;
+	CGFloat offsetX = (scaledX - 320) / -2;
+
+	scaledRect.origin = CGPointMake(offsetX, 0.0);
+	scaledRect.size.width  = scaledX;
 	scaledRect.size.height = 480;
 	
 	UIGraphicsBeginImageContext(targetSize);	
-	[baseImage drawInRect:scaledRect];
+	[baseImage drawInRect:scaledRect];	
 	[overlayImage drawAtPoint:topCorner];	
 	UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();	
@@ -79,29 +97,89 @@
 	return result;	
 }
 
+- (void)adjustLandscapePhoto:(UIImage*)image {
+	// TODO: maybe use this for something
+	NSLog(@"camera image: %f x %f", image.size.width, image.size.height);
+
+	switch (image.imageOrientation) {
+		case UIImageOrientationLeft:
+		case UIImageOrientationRight:
+			// portrait
+			NSLog(@"portrait");
+			break;
+		default:
+			// landscape
+			NSLog(@"landscape");
+			break;
+	}
+}
+
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+	[self showStatusMessage:@"Saving photo..."];
 	UIImage *baseImage = [info objectForKey:UIImagePickerControllerOriginalImage];
-	if (baseImage) {
-		UIImage *compositeImage = [self addOverlayToBaseImage:baseImage];
-		UIImageWriteToSavedPhotosAlbum(compositeImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+	if (baseImage == nil) return;
+
+	// save composite
+	UIImage *compositeImage = [self addOverlayToBaseImage:baseImage];
+	[self hideStatusMessage];
+	[self hideShadeOverlay];
+
+	UIImageWriteToSavedPhotosAlbum(compositeImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+
+	// thumbnail
+	if (self.shareController) {
+		[self.shareController generateAndShowThumbnail:compositeImage];
+		[self.shareController hideThumbnailAfterDelay:5.0f];
 	}
 }
 
 - (void)image:(UIImage*)image didFinishSavingWithError:(NSError *)error contextInfo:(NSDictionary*)info {
-	NSLog(@"Done saving image to photo album");
-	//[self writeImageToDocuments:image];
-	
-	[self showStatusMessage:@"Photo saved to album."];
-	[self performSelector:@selector(hideStatusMessage) withObject:nil afterDelay:2.0];
+}
+
+- (void)initStatusMessage {
+	self.statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, self.view.bounds.size.height)];
+	self.statusLabel.textAlignment = UITextAlignmentCenter;
+	self.statusLabel.adjustsFontSizeToFitWidth = YES;
+	self.statusLabel.backgroundColor = [UIColor clearColor];
+	self.statusLabel.textColor = [UIColor whiteColor];
+	self.statusLabel.shadowOffset = CGSizeMake(0, -1);  
+	self.statusLabel.shadowColor = [UIColor blackColor];  
+	self.statusLabel.hidden = YES;
+	[self.view addSubview:self.statusLabel];	
 }
 
 - (void)showStatusMessage:(NSString*)message {
-  self.statusLabel.text = message;
-	self.statusLabel.hidden = NO;
+	if ([self.parentViewController respondsToSelector:@selector(showStatusMessage:)]) {
+		[self.parentViewController showStatusMessage:message];
+	} else {
+		self.statusLabel.text = message;
+		self.statusLabel.hidden = NO;
+		[self.view bringSubviewToFront:self.statusLabel];
+	}
 }
 
 - (void)hideStatusMessage {
-	self.statusLabel.hidden = YES;
+	if ([self.parentViewController respondsToSelector:@selector(hideStatusMessage)]) {
+		[self.parentViewController hideStatusMessage];
+	} else {
+		self.statusLabel.hidden = YES;
+	}
+}
+
+- (void)showShadeOverlay {
+	[self animateShadeOverlay:0.82f];
+}
+
+- (void)hideShadeOverlay {
+	[self animateShadeOverlay:0.0f];
+}
+
+- (void)animateShadeOverlay:(CGFloat)alpha {
+	[UIView beginAnimations:nil context:nil];
+	[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+  [UIView setAnimationDuration:0.35f];
+  self.shadeOverlay.alpha = alpha;
+  [UIView commitAnimations];	
 }
 
 - (void)writeImageToDocuments:(UIImage*)image {
@@ -112,11 +190,14 @@
 	
 	NSError *error = nil;
 	[png writeToFile:[documentsDirectory stringByAppendingPathComponent:@"image.png"] options:NSAtomicWrite error:&error];
-	NSLog(@"Done saving image.png to documents directory");
 }
+
+- (BOOL)canBecomeFirstResponder { return YES; }
 
 - (void)dealloc {
 	[statusLabel release];
+	[shareController release];
+	[shadeOverlay release];
   [super dealloc];
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import "FullScreenCameraExampleController.h"
+#import "BTLImageShareController.h"
 
 // horizontal onSwipe
 #define HORIZ_SWIPE_DRAG_MIN 180
@@ -16,6 +17,7 @@
 #define HORIZ_SWIPE_DRAG_MAX 100
 #define VERT_SWIPE_DRAG_MIN 250
 
+#define OVERLAY_ALPHA 0.65f
 
 @implementation FullScreenCameraExampleController
 
@@ -23,12 +25,18 @@
 
 
 - (void)loadView {  
-  self.overlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-  self.overlayView.backgroundColor = [UIColor clearColor];
+	self.navigationController.toolbarHidden = YES;
+	self.navigationController.navigationBarHidden = YES;
+	[UIApplication sharedApplication].statusBarHidden = YES;
+
+  self.overlayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
   self.overlayView.opaque = NO;
-  self.overlayView.alpha = 0.5f;
+  self.overlayView.alpha = OVERLAY_ALPHA;
   
-  self.overlayLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
+	UIImageView *binocs = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"binocs.png"]] autorelease];
+	[self.overlayView addSubview:binocs];
+  
+  self.overlayLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
   self.overlayLabel.text = @"Starting camera...";
   self.overlayLabel.textAlignment = UITextAlignmentCenter;
   self.overlayLabel.adjustsFontSizeToFitWidth = YES;
@@ -36,24 +44,30 @@
   self.overlayLabel.shadowOffset = CGSizeMake(0, -1);  
   self.overlayLabel.shadowColor = [UIColor blackColor];  
   [self.overlayView addSubview:self.overlayLabel];
-  
+	
   self.view = self.overlayView;
 }
 
 - (void) viewDidAppear:(BOOL)animated { 
   [self initCamera];
   [self startCamera];
-	self.overlayLabel.text = @"Tap to take a picture.";
+	self.overlayLabel.text = @"Tap to take a picture.";	
 }
 
 - (void) initCamera {  
   if ([BTLFullScreenCameraController isAvailable]) {  
+	
     NSLog(@"Initializing camera.");
     BTLFullScreenCameraController *tmpCamera = [[BTLFullScreenCameraController alloc] init];
     self.camera = tmpCamera;
     [tmpCamera release];
     [self.camera.view setBackgroundColor:[UIColor blueColor]];
     [self.camera setCameraOverlayView:self.overlayView];
+
+		BTLImageShareController *shareController = [[BTLImageShareController alloc] init];
+		shareController.delegate = self;
+		[self.view addSubview:shareController.view];
+		self.camera.shareController = shareController;		
   } else {
     NSLog(@"Camera not available.");
   }
@@ -190,6 +204,14 @@
 
 - (void)onSwipeRight {
 	NSLog(@"onSwipeRight");
+}
+
+- (void)thumbnailTapped:(id)sender {
+	self.view.alpha = 1.0f;
+}
+
+- (void)previewClosed:(id)sender {
+	self.view.alpha = OVERLAY_ALPHA;
 }
 
 

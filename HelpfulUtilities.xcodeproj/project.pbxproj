@@ -18,6 +18,10 @@
 		4D85823F102FA63A0078CF24 /* BTLFullScreenCameraController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D85823E102FA63A0078CF24 /* BTLFullScreenCameraController.m */; };
 		4D858258102FA7680078CF24 /* FullScreenCameraExampleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D858257102FA7680078CF24 /* FullScreenCameraExampleController.m */; };
 		4D858435102FE20B0078CF24 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D858434102FE20B0078CF24 /* MBProgressHUD.m */; };
+		4DBBDE8E106D6D4B001D7299 /* BTLImageShareController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DBBDE8D106D6D4B001D7299 /* BTLImageShareController.m */; };
+		4DBBDE9A106D6D77001D7299 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DBBDE99106D6D77001D7299 /* MessageUI.framework */; };
+		4DBBDEA0106D6DB8001D7299 /* overlay1.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DBBDE9F106D6DB8001D7299 /* overlay1.png */; };
+		4DBBDF4A106D7940001D7299 /* binocs.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DBBDF49106D7940001D7299 /* binocs.png */; };
 		4DD6280B102FA03E00B8AE1B /* Example.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD6280A102FA03E00B8AE1B /* Example.m */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +44,11 @@
 		4D858257102FA7680078CF24 /* FullScreenCameraExampleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FullScreenCameraExampleController.m; path = Examples/FullScreenCameraExampleController.m; sourceTree = "<group>"; };
 		4D858433102FE20B0078CF24 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		4D858434102FE20B0078CF24 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		4DBBDE8C106D6D4B001D7299 /* BTLImageShareController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTLImageShareController.h; sourceTree = "<group>"; };
+		4DBBDE8D106D6D4B001D7299 /* BTLImageShareController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTLImageShareController.m; sourceTree = "<group>"; };
+		4DBBDE99106D6D77001D7299 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		4DBBDE9F106D6DB8001D7299 /* overlay1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = overlay1.png; sourceTree = "<group>"; };
+		4DBBDF49106D7940001D7299 /* binocs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = binocs.png; sourceTree = "<group>"; };
 		4DD62809102FA03E00B8AE1B /* Example.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Example.h; sourceTree = "<group>"; };
 		4DD6280A102FA03E00B8AE1B /* Example.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Example.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* HelpfulUtilities-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "HelpfulUtilities-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
@@ -53,6 +62,7 @@
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				2892E4100DC94CBA00A64D0F /* CoreGraphics.framework in Frameworks */,
+				4DBBDE9A106D6D77001D7299 /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +102,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				4DBBDE99106D6D77001D7299 /* MessageUI.framework */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -108,7 +119,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4DBBDE9F106D6DB8001D7299 /* overlay1.png */,
 				8D1107310486CEB800E47090 /* HelpfulUtilities-Info.plist */,
+				4DBBDF49106D7940001D7299 /* binocs.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -137,6 +150,8 @@
 			children = (
 				4D85823D102FA63A0078CF24 /* BTLFullScreenCameraController.h */,
 				4D85823E102FA63A0078CF24 /* BTLFullScreenCameraController.m */,
+				4DBBDE8C106D6D4B001D7299 /* BTLImageShareController.h */,
+				4DBBDE8D106D6D4B001D7299 /* BTLImageShareController.m */,
 			);
 			path = "BTL Utilities";
 			sourceTree = "<group>";
@@ -210,6 +225,8 @@
 			files = (
 				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
 				28F335F11007B36200424DE2 /* RootViewController.xib in Resources */,
+				4DBBDEA0106D6DB8001D7299 /* overlay1.png in Resources */,
+				4DBBDF4A106D7940001D7299 /* binocs.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +244,7 @@
 				4D85823F102FA63A0078CF24 /* BTLFullScreenCameraController.m in Sources */,
 				4D858258102FA7680078CF24 /* FullScreenCameraExampleController.m in Sources */,
 				4D858435102FE20B0078CF24 /* MBProgressHUD.m in Sources */,
+				4DBBDE8E106D6D4B001D7299 /* BTLImageShareController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
