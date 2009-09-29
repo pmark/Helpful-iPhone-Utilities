@@ -34,4 +34,7 @@
 - (void)onSwipeDown;
 - (void)onSwipeLeft;
 - (void)onSwipeRight;
+- (void)cameraWillTakePicture:(id)sender;
+- (void)cameraDidTakePicture:(id)sender;
+
 @end

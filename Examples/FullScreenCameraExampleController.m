@@ -19,6 +19,7 @@
 
 #define OVERLAY_ALPHA 0.90f
 #define BINOCS_TAG 99
+#define BINOCS_BUTTON_TAG 100
 
 @implementation FullScreenCameraExampleController
 
@@ -43,6 +44,7 @@
   self.overlayLabel.textAlignment = UITextAlignmentCenter;
   self.overlayLabel.adjustsFontSizeToFitWidth = YES;
   self.overlayLabel.textColor = [UIColor redColor];
+  self.overlayLabel.backgroundColor = [UIColor darkGrayColor];
   self.overlayLabel.shadowOffset = CGSizeMake(0, -1);  
   self.overlayLabel.shadowColor = [UIColor blackColor];  
   [self.overlayView addSubview:self.overlayLabel];
@@ -54,13 +56,14 @@
   [self initCamera];
   [self startCamera];
 	self.overlayLabel.text = @"Tap to take a picture.";	
-
-	UIButton *abutton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
-	[abutton setTitle:@"Binocs" forState:UIControlStateNormal];
-	abutton.backgroundColor = [UIColor clearColor];
-	abutton.frame = CGRectMake(10, 426, 100, 44);
-	[abutton addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
-	[self.overlayView addSubview:abutton];	
+	
+	UIButton *binocsButton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+	binocsButton.tag = BINOCS_BUTTON_TAG;
+	[binocsButton setTitle:@"Binocs" forState:UIControlStateNormal];
+	binocsButton.backgroundColor = [UIColor clearColor];
+	binocsButton.frame = CGRectMake(10, 426, 100, 44);
+	[binocsButton addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
+	[self.overlayView addSubview:binocsButton];	
 }
 
 - (void) initCamera {  
@@ -72,6 +75,7 @@
     [tmpCamera release];
     [self.camera.view setBackgroundColor:[UIColor blueColor]];
     [self.camera setCameraOverlayView:self.overlayView];
+		self.camera.overlayController = self;
 
 		BTLImageShareController *shareController = [[BTLImageShareController alloc] init];
 		shareController.delegate = self;
@@ -226,12 +230,27 @@
 
 - (void)thumbnailTapped:(id)sender {
 	self.view.alpha = 1.0f;
+	UIButton *binocsButton = (UIButton*)[self.view viewWithTag:BINOCS_BUTTON_TAG];
+	binocsButton.hidden = YES;
 }
 
 - (void)previewClosed:(id)sender {
 	self.view.alpha = OVERLAY_ALPHA;
+	UIButton *binocsButton = (UIButton*)[self.view viewWithTag:BINOCS_BUTTON_TAG];
+	binocsButton.hidden = NO;
 }
 
+- (void)cameraWillTakePicture:(id)sender {
+	UIButton *binocsButton = (UIButton*)[self.view viewWithTag:BINOCS_BUTTON_TAG];
+	binocsButton.hidden = YES;
+	self.overlayLabel.hidden = YES;
+}
+
+- (void)cameraDidTakePicture:(id)sender {
+	UIButton *binocsButton = (UIButton*)[self.view viewWithTag:BINOCS_BUTTON_TAG];
+	binocsButton.hidden = NO;
+	self.overlayLabel.hidden = NO;
+}
 
 - (void)dealloc {
   [overlayView release];

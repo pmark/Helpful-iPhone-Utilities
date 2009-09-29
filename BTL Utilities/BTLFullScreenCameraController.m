@@ -12,7 +12,7 @@
 
 @implementation BTLFullScreenCameraController
 
-@synthesize statusLabel, shareController, shadeOverlay;
+@synthesize statusLabel, shareController, shadeOverlay, overlayController;
 
 - (id)init {
   if (self = [super init]) {
@@ -23,8 +23,8 @@
     self.wantsFullScreenLayout = YES;
 		self.cameraViewTransform = CGAffineTransformScale(self.cameraViewTransform, CAMERA_SCALAR, CAMERA_SCALAR);    		
 		
-		if ([self.parentViewController respondsToSelector:@selector(initStatusMessage)]) {
-			[self.parentViewController initStatusMessage];
+		if ([self.overlayController respondsToSelector:@selector(initStatusMessage)]) {
+			[self.overlayController initStatusMessage];
 		} else {
 			[self initStatusMessage];
 		}		
@@ -50,10 +50,14 @@
 }
 
 - (void)dismissModalViewControllerAnimated:(BOOL)animated {
-  [[self parentViewController] dismissModalViewControllerAnimated:animated];
+  [self.overlayController dismissModalViewControllerAnimated:animated];
 }
 
 - (void)takePicture {
+	if ([self.overlayController respondsToSelector:@selector(cameraWillTakePicture:)]) {
+		[self.overlayController cameraWillTakePicture:self];
+	}
+	
 	self.delegate = self;
 	[self showStatusMessage:@"Taking photo..."];
 	
@@ -124,6 +128,10 @@
 	[self hideStatusMessage];
 	[self hideShadeOverlay];
 
+	if ([self.overlayController respondsToSelector:@selector(cameraDidTakePicture:)]) {
+		[self.overlayController cameraDidTakePicture:self];
+	}
+
 	UIImageWriteToSavedPhotosAlbum(compositeImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
 
 	// thumbnail
@@ -149,8 +157,8 @@
 }
 
 - (void)showStatusMessage:(NSString*)message {
-	if ([self.parentViewController respondsToSelector:@selector(showStatusMessage:)]) {
-		[self.parentViewController showStatusMessage:message];
+	if ([self.overlayController respondsToSelector:@selector(showStatusMessage:)]) {
+		[self.overlayController showStatusMessage:message];
 	} else {
 		self.statusLabel.text = message;
 		self.statusLabel.hidden = NO;
@@ -159,8 +167,8 @@
 }
 
 - (void)hideStatusMessage {
-	if ([self.parentViewController respondsToSelector:@selector(hideStatusMessage)]) {
-		[self.parentViewController hideStatusMessage];
+	if ([self.overlayController respondsToSelector:@selector(hideStatusMessage)]) {
+		[self.overlayController hideStatusMessage];
 	} else {
 		self.statusLabel.hidden = YES;
 	}
@@ -195,6 +203,7 @@
 - (BOOL)canBecomeFirstResponder { return YES; }
 
 - (void)dealloc {
+	[overlayController release];
 	[statusLabel release];
 	[shareController release];
 	[shadeOverlay release];

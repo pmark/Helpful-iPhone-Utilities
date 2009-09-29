@@ -53,6 +53,8 @@
   [UIView setAnimationDuration:0.66f];
   imageButton.alpha = 1.0f;	
   [UIView commitAnimations];	
+
+	[self.view bringSubviewToFront:imageButton];
 }
 
 - (void)imageTapped:(id)sender {

@@ -10,11 +10,13 @@
 
 
 @interface BTLFullScreenCameraController : UIImagePickerController <UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
+	UIViewController *overlayController;
 	UILabel *statusLabel;
 	BTLImageShareController *shareController;
 	UIImageView *shadeOverlay;
 }
 
+@property (nonatomic, retain) UIViewController *overlayController;
 @property (nonatomic, retain) UILabel *statusLabel;
 @property (nonatomic, retain) UIImageView *shadeOverlay;
 @property (nonatomic, retain) BTLImageShareController *shareController;
