@@ -17,7 +17,8 @@
 #define HORIZ_SWIPE_DRAG_MAX 100
 #define VERT_SWIPE_DRAG_MIN 250
 
-#define OVERLAY_ALPHA 0.65f
+#define OVERLAY_ALPHA 0.90f
+#define BINOCS_TAG 99
 
 @implementation FullScreenCameraExampleController
 
@@ -34,6 +35,7 @@
   self.overlayView.alpha = OVERLAY_ALPHA;
   
 	UIImageView *binocs = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"binocs.png"]] autorelease];
+	binocs.tag = BINOCS_TAG;
 	[self.overlayView addSubview:binocs];
   
   self.overlayLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
@@ -44,7 +46,7 @@
   self.overlayLabel.shadowOffset = CGSizeMake(0, -1);  
   self.overlayLabel.shadowColor = [UIColor blackColor];  
   [self.overlayView addSubview:self.overlayLabel];
-	
+
   self.view = self.overlayView;
 }
 
@@ -52,6 +54,13 @@
   [self initCamera];
   [self startCamera];
 	self.overlayLabel.text = @"Tap to take a picture.";	
+
+	UIButton *abutton = [[UIButton buttonWithType:UIButtonTypeRoundedRect] retain];
+	[abutton setTitle:@"Binocs" forState:UIControlStateNormal];
+	abutton.backgroundColor = [UIColor clearColor];
+	abutton.frame = CGRectMake(10, 426, 100, 44);
+	[abutton addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
+	[self.overlayView addSubview:abutton];	
 }
 
 - (void) initCamera {  
@@ -204,6 +213,15 @@
 
 - (void)onSwipeRight {
 	NSLog(@"onSwipeRight");
+}
+
+- (void)buttonTapped:(id)sender {
+	UIImageView *binocs = (UIImageView*)[self.view viewWithTag:BINOCS_TAG];
+	[UIView beginAnimations:nil context:nil];
+	[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+  [UIView setAnimationDuration:0.5f];
+	binocs.alpha = abs(1.0 - binocs.alpha);
+  [UIView commitAnimations];
 }
 
 - (void)thumbnailTapped:(id)sender {

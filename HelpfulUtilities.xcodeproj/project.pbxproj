@@ -23,6 +23,7 @@
 		4DBBDEA0106D6DB8001D7299 /* overlay1.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DBBDE9F106D6DB8001D7299 /* overlay1.png */; };
 		4DBBDF4A106D7940001D7299 /* binocs.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DBBDF49106D7940001D7299 /* binocs.png */; };
 		4DD6280B102FA03E00B8AE1B /* Example.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD6280A102FA03E00B8AE1B /* Example.m */; };
+		4DD6538B1071D211002A2192 /* llamas.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4DD6538A1071D211002A2192 /* llamas.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		4DBBDF49106D7940001D7299 /* binocs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = binocs.png; sourceTree = "<group>"; };
 		4DD62809102FA03E00B8AE1B /* Example.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Example.h; sourceTree = "<group>"; };
 		4DD6280A102FA03E00B8AE1B /* Example.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Example.m; sourceTree = "<group>"; };
+		4DD6538A1071D211002A2192 /* llamas.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = llamas.jpg; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* HelpfulUtilities-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "HelpfulUtilities-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -119,6 +121,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4DD6538A1071D211002A2192 /* llamas.jpg */,
 				4DBBDE9F106D6DB8001D7299 /* overlay1.png */,
 				8D1107310486CEB800E47090 /* HelpfulUtilities-Info.plist */,
 				4DBBDF49106D7940001D7299 /* binocs.png */,
@@ -227,6 +230,7 @@
 				28F335F11007B36200424DE2 /* RootViewController.xib in Resources */,
 				4DBBDEA0106D6DB8001D7299 /* overlay1.png in Resources */,
 				4DBBDF4A106D7940001D7299 /* binocs.png in Resources */,
+				4DD6538B1071D211002A2192 /* llamas.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
