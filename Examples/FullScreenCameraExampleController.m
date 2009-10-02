@@ -7,7 +7,10 @@
 //
 
 #import "FullScreenCameraExampleController.h"
+
+#ifdef BTL_INCLUDE_IMAGE_SHARING
 #import "BTLImageShareController.h"
+#endif
 
 // horizontal onSwipe
 #define HORIZ_SWIPE_DRAG_MIN 180
@@ -71,16 +74,19 @@
 	
     NSLog(@"Initializing camera.");
     BTLFullScreenCameraController *tmpCamera = [[BTLFullScreenCameraController alloc] init];
-    self.camera = tmpCamera;
-    [tmpCamera release];
-    [self.camera.view setBackgroundColor:[UIColor blueColor]];
-    [self.camera setCameraOverlayView:self.overlayView];
-		self.camera.overlayController = self;
+    [tmpCamera.view setBackgroundColor:[UIColor blueColor]];
+    [tmpCamera setCameraOverlayView:self.overlayView];
+		tmpCamera.overlayController = self;
 
+#ifdef BTL_INCLUDE_IMAGE_SHARING
 		BTLImageShareController *shareController = [[BTLImageShareController alloc] init];
 		shareController.delegate = self;
 		[self.view addSubview:shareController.view];
-		self.camera.shareController = shareController;		
+		tmpCamera.shareController = shareController;		
+#endif
+
+    self.camera = tmpCamera;
+    [tmpCamera release];
   } else {
     NSLog(@"Camera not available.");
   }

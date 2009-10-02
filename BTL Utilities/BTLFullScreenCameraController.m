@@ -2,7 +2,28 @@
 //  BTLFullScreenCameraController.m
 //
 //  Created by P. Mark Anderson on 8/6/2009.
-//  Copyright 2009 Bordertown Labs, LLC. All rights reserved.
+//  Copyright (c) 2009 Bordertown Labs, LLC.
+//  
+//  Permission is hereby granted, free of charge, to any person
+//  obtaining a copy of this software and associated documentation
+//  files (the "Software"), to deal in the Software without
+//  restriction, including without limitation the rights to use,
+//  copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the
+//  Software is furnished to do so, subject to the following
+//  conditions:
+//  
+//  The above copyright notice and this permission notice shall be
+//  included in all copies or substantial portions of the Software.
+//  
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+//  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+//  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+//  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+//  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+//  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+//  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+//  OTHER DEALINGS IN THE SOFTWARE.
 //
 
 #import "BTLFullScreenCameraController.h"
@@ -12,7 +33,11 @@
 
 @implementation BTLFullScreenCameraController
 
-@synthesize statusLabel, shareController, shadeOverlay, overlayController;
+@synthesize statusLabel, shadeOverlay, overlayController;
+
+#ifdef BTL_INCLUDE_IMAGE_SHARING
+@synthesize shareController;
+#endif
 
 - (id)init {
   if (self = [super init]) {
@@ -61,9 +86,11 @@
 	self.delegate = self;
 	[self showStatusMessage:@"Taking photo..."];
 	
+#ifdef BTL_INCLUDE_IMAGE_SHARING
 	if (self.shareController) {
 		[self.shareController hideThumbnail];
 	}
+#endif
 	
 	[self showShadeOverlay];
 	[super takePicture];
@@ -134,11 +161,14 @@
 
 	UIImageWriteToSavedPhotosAlbum(compositeImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
 
+#ifdef BTL_INCLUDE_IMAGE_SHARING
 	// thumbnail
 	if (self.shareController) {
 		[self.shareController generateAndShowThumbnail:compositeImage];
 		[self.shareController hideThumbnailAfterDelay:5.0f];
 	}
+#endif
+
 }
 
 - (void)image:(UIImage*)image didFinishSavingWithError:(NSError *)error contextInfo:(NSDictionary*)info {
@@ -205,9 +235,13 @@
 - (void)dealloc {
 	[overlayController release];
 	[statusLabel release];
-	[shareController release];
 	[shadeOverlay release];
+	
+#ifdef BTL_INCLUDE_IMAGE_SHARING
+	[shareController release];
+#endif
   [super dealloc];
+	
 }
 
 

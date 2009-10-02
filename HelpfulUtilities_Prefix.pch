@@ -12,3 +12,8 @@
     #import <Foundation/Foundation.h>
     #import <UIKit/UIKit.h>
 #endif
+
+// Comment out this line to exclude thumbnail previews and picture sharing.
+// Sharing requires MessageUI framework to send pictures as email attachments.
+#define BTL_INCLUDE_IMAGE_SHARING 1
+
