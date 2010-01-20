@@ -49,7 +49,7 @@
 		self.cameraViewTransform = CGAffineTransformScale(self.cameraViewTransform, CAMERA_SCALAR, CAMERA_SCALAR);    		
 		
 		if ([self.overlayController respondsToSelector:@selector(initStatusMessage)]) {
-			[self.overlayController initStatusMessage];
+			[self.overlayController performSelector:@selector(initStatusMessage)];
 		} else {
 			[self initStatusMessage];
 		}		
@@ -80,7 +80,7 @@
 
 - (void)takePicture {
 	if ([self.overlayController respondsToSelector:@selector(cameraWillTakePicture:)]) {
-		[self.overlayController cameraWillTakePicture:self];
+		[self.overlayController performSelector:@selector(cameraWillTakePicture:) withObject:self];
 	}
 	
 	self.delegate = self;
@@ -156,7 +156,7 @@
 	[self hideShadeOverlay];
 
 	if ([self.overlayController respondsToSelector:@selector(cameraDidTakePicture:)]) {
-		[self.overlayController cameraDidTakePicture:self];
+		[self.overlayController performSelector:@selector(cameraDidTakePicture:) withObject:self];
 	}
 
 	UIImageWriteToSavedPhotosAlbum(compositeImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
@@ -188,7 +188,7 @@
 
 - (void)showStatusMessage:(NSString*)message {
 	if ([self.overlayController respondsToSelector:@selector(showStatusMessage:)]) {
-		[self.overlayController showStatusMessage:message];
+		[self.overlayController performSelector:@selector(showStatusMessage) withObject:message];
 	} else {
 		self.statusLabel.text = message;
 		self.statusLabel.hidden = NO;
@@ -198,7 +198,7 @@
 
 - (void)hideStatusMessage {
 	if ([self.overlayController respondsToSelector:@selector(hideStatusMessage)]) {
-		[self.overlayController hideStatusMessage];
+		[self.overlayController performSelector:@selector(hideStatusMessage)];
 	} else {
 		self.statusLabel.hidden = YES;
 	}

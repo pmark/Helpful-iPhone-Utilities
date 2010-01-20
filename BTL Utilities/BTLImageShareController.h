@@ -48,6 +48,7 @@
 - (UIImage*)generateThumbnail:(UIImage*)source;
 - (void)generateAndShowThumbnail:(UIImage*)source;
 - (void)hidePreviewImage;
+- (void)emailPhoto;
 
 @end
 #endif

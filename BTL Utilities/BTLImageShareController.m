@@ -98,7 +98,7 @@
 		case 1:
 			[self hidePreviewImage];
 			if ([self.delegate respondsToSelector:@selector(previewClosed:)]) {
-				[self.delegate previewClosed:self];
+				[self.delegate performSelector:@selector(previewClosed:) withObject:self];
 			}
 			break;
 		default:
